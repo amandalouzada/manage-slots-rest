@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  manage-slots:
+    container_name: manage-slots
+    build:
+      dockerfile: ./manage-slots.dockerfile
+      context: ../
+    volumes:
+      - ../:/root/manage-slots
+    environment:
+      - RABBITMQ_PROTOCOL=amqp
+      - RABBITMQ_HOST=rabbitmq-ivo-local
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+    networks:
+      - slots-network
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - slots-network
+      
+networks:
+  slots-network:
+    driver: bridge

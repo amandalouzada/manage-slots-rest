@@ -1,6 +1,6 @@
 import IUserRepository from "./IUserRepository";
-import MongooseRepository from "src/infra/mongoose/MongooseRepository";
-import { IUserModel } from "src/infra/mongoose/models/User";
+import MongooseRepository from "@infra/mongoose/MongooseRepository";
+import { IUserModel } from "@infra/mongoose/models/User";
 
 export class UserRepository extends MongooseRepository<IUserModel> implements IUserRepository {
 

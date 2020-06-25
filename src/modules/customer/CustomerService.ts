@@ -8,18 +8,18 @@ import IUserRepository from "@modules/user/IUserRepository";
 
 export class CustomerService implements ICustomerService {
 
-  constructor(private professionalRepository: ICustomerRepository,
+  constructor(private customerRepository: ICustomerRepository,
     private userRepository: IUserRepository
   ) {
-    this.professionalRepository = professionalRepository;
+    this.customerRepository = customerRepository;
     this.userRepository = userRepository;
   }
 
-  async create(professional: { license: string; userId: string; }): Promise<any> {
-    return this.professionalRepository.create(professional);
+  async create(customer: { license: string; userId: string; }): Promise<any> {
+    return this.customerRepository.create(customer);
   }
 
-  async createCustomerAndUser(professional: { license: string; }, user: { name: string; email: string; password: string; }): Promise<any> {
+  async createCustomerAndUser(user: { name: string; email: string; password: string; }): Promise<any> {
     const customerUser = CustomerUser.create({
       user: User.create({
         name: user.name,
@@ -33,7 +33,7 @@ export class CustomerService implements ICustomerService {
       password: await customerUser.user.password.getHashedValue()
     });
 
-    const newCustomer = await this.professionalRepository.create({
+    const newCustomer = await this.customerRepository.create({
       userId: newUser.id
     });
 

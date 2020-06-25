@@ -1,6 +1,5 @@
 import { IProfessionalService } from "./IProfessionalService";
 import { Request, Response } from "express";
-import { UserPassword } from "@modules/user/UserPassword";
 
 export class ProfessionalController {
 

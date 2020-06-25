@@ -18,8 +18,7 @@ describe('', () => {
         }
       }),
     getById: jest.fn(),
-    getByEmail: jest.fn(),
-    findOne: jest.fn()
+    findOne: jest.fn(),
   }
   const userRepository: IUserRepository = {
     create: jest.fn()

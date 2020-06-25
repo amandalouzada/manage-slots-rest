@@ -3,6 +3,7 @@ import { differenceInMinutes } from 'date-fns';
 
 
 interface IAvailabilityProps {
+  id?:string;
   start: Date;
   end: Date;
   status: string;
@@ -12,6 +13,10 @@ interface IAvailabilityProps {
 export class Availability {
   constructor(private props: IAvailabilityProps) {
     this.props = props;
+  }
+
+  get id(): string {
+    return this.props.id;
   }
 
   get start(): Date {
@@ -28,6 +33,10 @@ export class Availability {
 
   get customerId(): string {
     return this.props.customerId;
+  }
+
+  get value(): IAvailabilityProps {
+    return this.props;
   }
 
   private static isValidDuration(props: IAvailabilityProps): boolean {

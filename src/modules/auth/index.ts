@@ -1,8 +1,13 @@
 import { AuthController } from "./AuthController";
-import { professionalService } from "@modules/professional";
+import { AuthService } from "./AuthService";
+import { professionalRepository } from '@modules/professional';
+import { userRepository } from '@modules/user';
+import { customerRepository } from "@modules/customer";
 
-const authController = new AuthController(professionalService)
+const authService = new AuthService(professionalRepository, customerRepository, userRepository);
+const authController = new AuthController(authService)
 
 export {
-  authController
+  authController,
+  authService
 }

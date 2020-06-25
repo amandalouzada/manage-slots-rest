@@ -1,5 +1,5 @@
 import { zonedTimeToUtc } from 'date-fns-tz'
-import { isMonday, isSunday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, eachDayOfInterval, setHours, addMinutes, differenceInMinutes } from 'date-fns';
+import { isMonday, isSunday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, eachDayOfInterval, setHours, addMinutes, differenceInMinutes, isAfter } from 'date-fns';
 import { flatten, uniq, range, compose } from 'lodash/fp';
 import { Slot } from './Slot';
 
@@ -64,10 +64,12 @@ export class SlotIntervals {
 
     return flatten(eachDayOfInterval(
       {
-        start: startDate,
-        end: endDate
+        start: new Date(startDate),
+        end: new Date(endDate)
       })
-      .filter(day => day > startDate && day < endDate)
+      .filter(day =>
+        isAfter(new Date(endDate), new Date(day)) && isAfter(new Date(day), new Date(startDate))
+      )
       .filter((day) => daysOfWeek[dayOfWeekWithIntervals.dayOfWeek](day))
       .map((dateTime) => this.getSlotDateTime(dateTime, dayOfWeekWithIntervals)));
   }
@@ -83,7 +85,7 @@ export class SlotIntervals {
     ).map((hour: number) => zonedTimeToUtc(setHours(dateTime, hour), '000'))
   }
 
-  private mergeDaysOfWeek (intervalsByDayOfWeek: IIntervalsByDayOfWeek[]): IIntervalsByDayOfWeek[]{
+  private mergeDaysOfWeek(intervalsByDayOfWeek: IIntervalsByDayOfWeek[]): IIntervalsByDayOfWeek[] {
     const daysOfWeek = uniq(intervalsByDayOfWeek.map(intervalByDayOfWeek => intervalByDayOfWeek.dayOfWeek));
     return daysOfWeek.map(dayOfWeek => {
       return {

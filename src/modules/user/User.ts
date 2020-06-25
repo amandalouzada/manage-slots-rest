@@ -3,6 +3,7 @@ import { UserPassword } from "./UserPassword";
 
 
 interface IUserProps {
+  id?:string;
   name: string;
   email: UserEmail;
   password: UserPassword;
@@ -13,6 +14,12 @@ export class User {
   private constructor(private props: IUserProps) {
     this.props = props
   }
+
+
+  get id(): string {
+    return this.props.id;
+  }
+
 
   get name(): string {
     return this.props.name;

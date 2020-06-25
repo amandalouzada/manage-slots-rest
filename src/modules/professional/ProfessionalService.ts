@@ -15,20 +15,6 @@ export class ProfessionalService implements IProfessionalService {
     this.userRepository = userRepository;
   }
 
-  async getByEmail(email: string): Promise<ProfessionalUser> {
-    const foundUser = await this.userRepository.getByEmail(email);
-    const professional = await this.professionalRepository.findOne({ userId: foundUser.id });
-    const userPassword = UserPassword.create({ value: professional.userId.password });
-    const userEmail = UserEmail.create(professional.userId.email);
-    const user = User.create({
-      password: userPassword,
-      email: userEmail,
-      name: professional.userId.name
-    });
-    const professionaUser = ProfessionalUser.create({ license: professional.license, user, id: professional.id });
-    return professionaUser;
-  }
-
   async create(professional: { license: string; userId: string; }): Promise<any> {
     return this.professionalRepository.create(professional);
   }

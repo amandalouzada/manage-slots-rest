@@ -6,4 +6,5 @@ export interface IIntervalsByDayOfWeek {
 }
 export default interface ISlotService {
   createMany(slotsRequestDTO:ISlotsRequestDto): Promise<any>;
+  listSlotsByInterval(start:Date, end:Date, professionalId?:string):Promise<any>;
 }

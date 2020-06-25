@@ -21,12 +21,5 @@ export class ProfessionalController {
     });
   }
 
-  login = async (req: Request, res: Response): Promise<any> => {
-    const { email, password } = req.body;
-    const professionaUser = await this.professionalService.getByEmail(email);
 
-    res.status(201).json({
-      user: professionaUser
-    });
-  }
 }

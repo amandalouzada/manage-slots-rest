@@ -3,6 +3,7 @@ import { authController } from '@modules/auth';
 
 const AuthRoutes = express.Router();
 
-AuthRoutes.post('/login', authController.loginProfessional);
+AuthRoutes.post('/loginProfessional', authController.loginProfessional);
+AuthRoutes.post('/login', authController.loginCustomer);
 
 export default AuthRoutes;

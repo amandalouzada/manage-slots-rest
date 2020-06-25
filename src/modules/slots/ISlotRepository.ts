@@ -10,5 +10,8 @@ export default interface ISlotRepository {
     }[]
   }): Promise<any>;
   getById(id: string): Promise<any>;
+  getByAvailability(id:string):Promise<any>;
   insertAvailability(id: string, availability: { start: Date; end: Date }): Promise<any>;
+  getByInterval(start:Date, end:Date, professionalId?:string):Promise<any>;
+  updateAvailability(id:string, availability:{status:string; customerId?:string}): Promise<any>;
 }

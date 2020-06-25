@@ -16,6 +16,7 @@ const ProfessionalSchema = new Schema({
 
 interface IProfessionalSchema extends Document {
   license: string;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
 }

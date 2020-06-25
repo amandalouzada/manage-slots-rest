@@ -13,6 +13,7 @@ interface IJWTProps {
 interface IJWTPayload {
   name: string;
   email: string;
+  identity?: string;
 }
 
 export class JWT {

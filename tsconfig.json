@@ -21,12 +21,12 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@infra/*": [
-        "./src/infra/*"
+      "@core/*": [
+        "./src/core/*"
       ],
       "@modules/*": [
         "./src/modules/*"
-      ],
+      ]
     }
   },
   "include": [

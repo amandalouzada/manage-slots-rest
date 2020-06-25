@@ -26,6 +26,10 @@ export class User {
     return this.props.password;
   }
 
+  get accessToken(): string {
+    return this.props.accessToken;
+  }
+
 
   public setAccessToken(accessToken: string): void {
     this.props.accessToken = accessToken;

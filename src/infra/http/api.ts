@@ -4,18 +4,13 @@ dotenv.config();
 
 import db from '@infra/mongoose/config/MongoDB';
 import expressServer from './ExpressServer';
-import express from 'express';
+
+import ProfessionalRoutes from './routes/professional';
+import AuthRoutes from './routes/auth';
 
 
-const userRouter = express.Router();
-
-userRouter.get('/',
-  async (req, res) => {
-    throw new Error('TESTE handler')
-  }
-)
-
-expressServer.applyRoute('/user', userRouter);
+expressServer.applyRoute('/professional', ProfessionalRoutes);
+expressServer.applyRoute('/auth', AuthRoutes);
 db.initialize();
 expressServer.initServer();
 

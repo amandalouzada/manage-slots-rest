@@ -6,6 +6,7 @@ import ISlotService from './ISlotService';
 import { ISlotsRequestDto } from './ISlotsDTO';
 import { Slot } from './Slot';
 import { SlotIntervals } from './SlotIntervals';
+import { Availability } from './availability/Availability';
 
 export class SlotService implements ISlotService {
   constructor(private slotRepository: ISlotRepository) {
@@ -21,12 +22,25 @@ export class SlotService implements ISlotService {
             professionalId: slot.professionalId,
             start: slot.start,
             end: slot.end,
-            availabilities: slot.availabilities
+            availabilities: slot.availabilities.map(availability => availability.value)
           })
         )
     )
   }
 
+  async listSlotsByInterval(start: Date, end: Date, professionalId?: string) {
+    const slots = (await this.slotRepository.getByInterval(start, end, professionalId))
+    return slots.map((slot) => {
+      return {
+        professional: {
+          id: slot.professionalId.id,
+          name: slot.professionalId.userId.name,
+          license: slot.professionalId.license
+        },
+        availabilities: slot.availabilities.map(availability => Availability.create(availability).value)
+      }
+    })
 
+  }
 
 }

@@ -14,7 +14,10 @@ describe('Manage slots', () => {
       }
     }),
     getById: jest.fn(),
-    insertAvailability: jest.fn()
+    insertAvailability: jest.fn(),
+    getByAvailability: jest.fn(),
+    getByInterval: jest.fn(),
+    updateAvailability: jest.fn()
   }
 
   it('should be able to create list of slots', async () => {

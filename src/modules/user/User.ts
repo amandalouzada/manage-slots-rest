@@ -3,6 +3,7 @@ import { UserPassword } from "./UserPassword";
 
 
 interface IUserProps {
+  id?:string;
   name: string;
   email: UserEmail;
   password: UserPassword;
@@ -14,6 +15,12 @@ export class User {
     this.props = props
   }
 
+
+  get id(): string {
+    return this.props.id;
+  }
+
+
   get name(): string {
     return this.props.name;
   }
@@ -24,6 +31,10 @@ export class User {
 
   get password(): UserPassword {
     return this.props.password;
+  }
+
+  get accessToken(): string {
+    return this.props.accessToken;
   }
 
 

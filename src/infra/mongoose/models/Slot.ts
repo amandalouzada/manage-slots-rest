@@ -54,7 +54,7 @@ interface ISlotSchema extends Document {
   availabilities: {
     start: Date;
     end: Date;
-    customerId: string;
+    customerId?: string;
     status: string
   }[];
   createdAt: Date;

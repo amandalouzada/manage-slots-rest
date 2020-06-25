@@ -20,7 +20,7 @@ export class ProfessionalService implements IProfessionalService {
   }
 
   async createProfessionalAndUser(professional: { license: string; }, user: { name: string; email: string; password: string; }): Promise<any> {
-    const professionaUser = ProfessionalUser.create({
+    const professionalUser = ProfessionalUser.create({
       license: professional.license,
       user: User.create({
         name: user.name,
@@ -29,17 +29,17 @@ export class ProfessionalService implements IProfessionalService {
       })
     });
     const newUser = await this.userRepository.create({
-      name: professionaUser.user.name,
-      email: professionaUser.user.email.value,
-      password: await professionaUser.user.password.getHashedValue()
+      name: professionalUser.user.name,
+      email: professionalUser.user.email.value,
+      password: await professionalUser.user.password.getHashedValue()
     });
 
-    const newProfessinal = await this.professionalRepository.create({
-      license: professionaUser.license,
+    const newProfessional = await this.professionalRepository.create({
+      license: professionalUser.license,
       userId: newUser.id
     });
 
-    return newProfessinal;
+    return newProfessional;
 
   }
 

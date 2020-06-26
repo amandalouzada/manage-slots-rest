@@ -1,9 +1,9 @@
-import { range } from 'lodash';
 import { differenceInMinutes } from 'date-fns';
+import ErrorLib from '@core/ErrorLib';
 
 
 interface IAvailabilityProps {
-  id?:string;
+  id?: string;
   start: Date;
   end: Date;
   status: string;
@@ -15,7 +15,7 @@ export class Availability {
     this.props = props;
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this.props.id;
   }
 
@@ -31,7 +31,7 @@ export class Availability {
     return this.props.status;
   }
 
-  get customerId(): string {
+  get customerId(): string | undefined {
     return this.props.customerId;
   }
 
@@ -45,7 +45,10 @@ export class Availability {
 
   public static create(props: IAvailabilityProps): Availability {
     if (!this.isValidDuration(props)) {
-      throw new Error('start and end not valid');
+      throw new ErrorLib({
+        message: 'start and end not valid',
+        httpCode: 409
+      });
     }
     const slot = new Availability(props);
     return slot;

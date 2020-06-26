@@ -9,9 +9,11 @@ export default class AvailabilityService implements IAvailabilityService {
 
 
   booksASession = async (availabilityId: string, customerId: string): Promise<any> => {
-    const availability = await this.slotRepository.getByAvailability(availabilityId);
-    if (availability.status != 'available' || !isAfter(availability.start, new Date())) throw new Error('unavailable');
-    return await this.slotRepository.updateAvailability(availabilityId,{
+    const slot = await this.slotRepository.getByAvailability(availabilityId);
+    const foundAvailability = slot.availabilities.find(availability => availability.id === availabilityId)
+
+    if (foundAvailability.status != 'available' || !isAfter(foundAvailability.start, new Date())) throw new Error('unavailable');
+    return await this.slotRepository.updateAvailability(availabilityId, {
       customerId,
       status: 'reserved'
     })

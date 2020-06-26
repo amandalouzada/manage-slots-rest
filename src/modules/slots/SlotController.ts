@@ -12,9 +12,10 @@ export class SlotController {
 
   createMany = async (req: Request, res: Response): Promise<any> => {
     const professionaId = res.locals.id;
-    const slotRequest = { ...req.body, professionaId } as ISlotsRequestDto;
+    const slotRequest = { ...req.body } as ISlotsRequestDto;
+    slotRequest.professionalId = professionaId
     const slots = await this.slotService.createMany(slotRequest);
-    ControllerResponse.created(res);
+    ControllerResponse.created(res,{slots});
   }
 
 

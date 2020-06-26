@@ -18,7 +18,7 @@ export class AuthController {
       const professionalUser = await this.authService.getProfessionalUserByEmail(email);
       if (professionalUser.user.password.comparePassword(password)) {
         const jwt = JWT.create({
-          sub: professionalUser.user.id
+          sub: professionalUser.id
         }, {
           email: professionalUser.user.email.value,
           name: professionalUser.user.name,
@@ -40,7 +40,7 @@ export class AuthController {
       const customerlUser = await this.authService.getCustomerUserByEmail(email);
       if (customerlUser.user.password.comparePassword(password)) {
         const jwt = JWT.create({
-          sub: customerlUser.user.id
+          sub: customerlUser.id
         }, {
           email: customerlUser.user.email.value,
           name: customerlUser.user.name,

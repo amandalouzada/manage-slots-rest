@@ -1,12 +1,10 @@
-import { flatten } from 'lodash/fp';
-import { addMinutes } from 'date-fns';
-
 import ISlotRepository from './ISlotRepository';
 import ISlotService from './ISlotService';
 import { ISlotsRequestDto } from './ISlotsDTO';
-import { Slot } from './Slot';
 import { SlotIntervals } from './SlotIntervals';
 import { Availability } from './availability/Availability';
+import { isAfter } from 'date-fns';
+import ErrorLib from '@core/ErrorLib';
 
 export class SlotService implements ISlotService {
   constructor(private slotRepository: ISlotRepository) {
@@ -14,6 +12,14 @@ export class SlotService implements ISlotService {
   }
 
   async createMany(slotsRequestDTO: ISlotsRequestDto): Promise<any> {
+    const today = new Date();
+    if(!isAfter(today, new Date(slotsRequestDTO.start.toString()))) {
+      throw new ErrorLib({
+        message: 'invalid date',
+        httpCode: 409
+      });
+    }
+    
     return Promise.all(
       SlotIntervals.create(slotsRequestDTO).intervals
         .map
@@ -31,7 +37,6 @@ export class SlotService implements ISlotService {
   async listSlotsByInterval(start: Date, end: Date, professionalId?: string) {
     const slots = (await this.slotRepository.getByInterval(start, end, professionalId))
     return slots.map((slot: any) => {
-      console.log(slot);
       return {
         professional: {
           id: slot.professionalId.id,

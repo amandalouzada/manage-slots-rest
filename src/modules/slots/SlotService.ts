@@ -5,6 +5,7 @@ import { SlotIntervals } from './SlotIntervals';
 import { Availability } from './availability/Availability';
 import { isAfter } from 'date-fns';
 import ErrorLib from '@core/ErrorLib';
+import { flatten } from 'lodash/fp';
 
 export class SlotService implements ISlotService {
   constructor(private slotRepository: ISlotRepository) {
@@ -39,17 +40,11 @@ export class SlotService implements ISlotService {
     return slots.map((slot: any) => {
       return {
         professional: {
-          id: slot.professionalId.id,
-          name: slot.professionalId.userId.name,
-          license: slot.professionalId.license
+          id: slot.id,
+          name: slot.user[0].name,
+          license: slot.professional[0].license
         },
-        availabilities: slot.availabilities.map((availability: {
-          id?: string;
-          start: Date;
-          end: Date;
-          status: string;
-          customerId?: string;
-        }) => Availability.create(availability).value)
+        availabilities: flatten(slot.slots)
       }
     })
 

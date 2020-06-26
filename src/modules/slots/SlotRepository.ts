@@ -37,10 +37,33 @@ export class SlotRespository extends MongooseRepository<ISlotModel> implements I
       },
     };
     if (!!professionalId) queryGeneric['professionalId'] = professionalId;
-    return this.model.find(queryGeneric).populate({
-      path: 'professionalId',
-      populate: 'userId'
-    });
+    return this.model.aggregate([
+      { $match: queryGeneric },
+      {
+        $group: {
+          "_id": "$professionalId",
+          "slots": {
+            "$push": "$availabilities"
+          }
+        }
+      },
+      {
+        $lookup: {
+          "from": "professionals",
+          "localField": "_id",
+          "foreignField": "_id",
+          "as": "professional"
+        }
+      },
+      {
+        $lookup: {
+          "from": "users",
+          "localField": "professional.userId",
+          "foreignField": "_id",
+          "as": "user"
+        }
+      }
+    ])
   }
 
   async updateAvailability(id: string, availability: { status: string; customerId: string }): Promise<any> {

@@ -24,7 +24,10 @@ export class UserEmail {
 
   public static create(email: string): UserEmail {
     if (!this.isValidEmail(email)) {
-      throw new Error('Email address not valid');
+      throw new ErrorLib({
+        message: 'Email address not valid',
+        httpCode: 409
+      });
     }
 
     return new UserEmail({ value: this.format(email) });

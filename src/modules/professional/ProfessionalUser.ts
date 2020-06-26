@@ -15,7 +15,7 @@ export class ProfessionalUser {
     return this.props.user;
   }
 
-  get id(): string {
+  get id(): string | undefined {
     return this.props.id;
   }
 

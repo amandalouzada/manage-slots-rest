@@ -7,6 +7,7 @@ import { UserEmail } from "@modules/user/UserEmail";
 import { User } from "@modules/user/User";
 import { ProfessionalUser } from "@modules/professional/ProfessionalUser";
 import { CustomerUser } from "@modules/customer/CustomerUser";
+import ErrorLib from "@core/ErrorLib";
 
 export class AuthService implements IAuthService {
 
@@ -39,12 +40,16 @@ export class AuthService implements IAuthService {
     const professional = await this.professionalRepository.findOne({ userId: user.id });
     if (!!professional) {
       const professionalUser = ProfessionalUser.create({
+        id:professional.id,
         user: user,
         license: professional.license
       });
       return professionalUser
     }
-    throw new Error('professional not found');
+    throw new ErrorLib({
+      message: 'professional not found',
+      httpCode: 404
+    });
   }
 
   async getCustomerUserByEmail(email: string): Promise<CustomerUser> {
@@ -57,7 +62,10 @@ export class AuthService implements IAuthService {
       });
       return customerUser
     }
-    throw new Error('customer not found');
+    throw new ErrorLib({
+      message: 'customer not found',
+      httpCode: 404
+    });
   }
 
 }

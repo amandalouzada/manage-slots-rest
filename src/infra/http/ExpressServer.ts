@@ -7,6 +7,7 @@ import { Server } from 'http';
 import 'express-async-errors';
 // @ts-ignore
 import Youch from 'youch';
+import ErrorLib from '@core/ErrorLib';
 export default new class ExpressServer {
 
   private server: express.Express
@@ -39,23 +40,25 @@ export default new class ExpressServer {
   }
 
   private exceptionHandler() {
-    this.server.use(async (err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
+    this.server.use(async (err: ErrorRequestHandler | ErrorLib, req: Request, res: Response, next: NextFunction) => {
 
+      // @ts-ignore
+      if (err?.isErrorLib) {
+        // @ts-ignore
+        res.status(err.getHttpCode() || 422).json(err.getErrorJson());
+        return;
+      }
+
+      const errors = await new Youch(err, req).toJSON();
 
       if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'test') {
-        const errors = await new Youch(err, req).toHTML();
         delete errors.error.frames;
         res.status(500).json(errors);
         return;
-
       }
 
-      const errors = await new Youch(err, req).toHTML();
 
-      res.writeHead(200, { 'content-type': 'text/html' })
-      res.write(errors)
-      res.end()
-
+      res.status(500).json(errors);
 
       return;
     });

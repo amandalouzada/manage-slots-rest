@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import IAvailabilityRepository from "./IAvailabilityRepository";
 import AvailabilityService from "./AvailabilityService";
 import { addHours, addMinutes } from 'date-fns';
 import ISlotRepository from '../ISlotRepository';
@@ -18,20 +17,24 @@ describe('Manage availability', () => {
     getByAvailability: jest.fn()
       .mockImplementation(async (id: string) => {
         return {
-          customerId: uuidv4(),
-          start: addHours(new Date(), 60),
-          end: addMinutes(new Date(), 90),
-          id: id,
-          status: 'reserved'
+          availabilities: [{
+            customerId: uuidv4(),
+            start: addHours(new Date(), 60),
+            end: addMinutes(new Date(), 90),
+            id: id,
+            status: 'reserved'
+          }]
         }
       })
       .mockImplementationOnce(async (id: string) => {
         return {
-          customerId: uuidv4(),
-          start: addHours(new Date(), 60),
-          end: addMinutes(new Date(), 90),
-          id: id,
-          status: 'available'
+          availabilities: [{
+            customerId: uuidv4(),
+            start: addHours(new Date(), 60),
+            end: addMinutes(new Date(), 90),
+            id: id,
+            status: 'available'
+          }]
         }
       }),
     create: jest.fn(),

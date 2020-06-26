@@ -18,7 +18,7 @@ export class UserPassword {
   }
 
   public isAlreadyHashed(): boolean {
-    return this.props.hashed;
+    return (!!this.props.hashed);
   }
 
   public async comparePassword(plainTextPassword: string): Promise<boolean> {

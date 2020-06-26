@@ -74,7 +74,7 @@ export class SlotIntervals {
       .map((dateTime) => this.getSlotDateTime(dateTime, dayOfWeekWithIntervals)));
   }
 
-  private getSlotDateTime(dateTime, dayOfWeekWithIntervals: IIntervalsByDayOfWeek) {
+  private getSlotDateTime(dateTime:Date, dayOfWeekWithIntervals: IIntervalsByDayOfWeek) {
     return uniq(
       flatten
         (

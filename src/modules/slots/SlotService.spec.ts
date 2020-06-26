@@ -55,7 +55,7 @@ describe('Manage slots', () => {
     });
 
     expect(slots).toHaveLength(10);
-    slots.forEach(slot => {
+    slots.forEach((slot: any) => {
       expect(slot).toHaveProperty('id');
       expect(slot).toHaveProperty('professionalId', '1b978428-aebe-44bb-8a85-232cbf7c3983');
       expect(slot).toHaveProperty('start');

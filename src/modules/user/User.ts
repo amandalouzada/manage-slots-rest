@@ -16,7 +16,7 @@ export class User {
   }
 
 
-  get id(): string {
+  get id(): string | undefined {
     return this.props.id;
   }
 
@@ -33,7 +33,7 @@ export class User {
     return this.props.password;
   }
 
-  get accessToken(): string {
+  get accessToken(): string | undefined {
     return this.props.accessToken;
   }
 

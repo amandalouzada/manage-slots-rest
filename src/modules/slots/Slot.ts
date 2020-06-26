@@ -6,7 +6,7 @@ import { differenceInMinutes, addMinutes } from 'date-fns';
 interface ISlotProps {
   professionalId: string;
   start: Date;
-  end?: Date;
+  end: Date;
   availabilities?: Availability[]
 }
 
@@ -30,7 +30,7 @@ export class Slot {
       return this.props.availabilities
     }
     this.addAvailableAvailabilities(30);
-    return this.props.availabilities;
+    return this.props.availabilities || [];
   }
 
   calculatorAvailabilities(duration: number): { start: Date; end: Date }[] {

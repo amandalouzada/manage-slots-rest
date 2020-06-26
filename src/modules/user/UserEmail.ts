@@ -1,3 +1,4 @@
+import ErrorLib from "@core/ErrorLib";
 
 export interface IUserEmailProps {
   value: string;

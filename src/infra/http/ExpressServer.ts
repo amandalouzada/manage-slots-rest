@@ -43,19 +43,16 @@ export default new class ExpressServer {
 
 
       if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'test') {
-        const errors = await new Youch(err, req).toHTML();
+        const errors = await new Youch(err, req).toJSON();
         delete errors.error.frames;
         res.status(500).json(errors);
         return;
 
       }
 
-      const errors = await new Youch(err, req).toHTML();
+      const errors = await new Youch(err, req).toJSON();
 
-      res.writeHead(200, { 'content-type': 'text/html' })
-      res.write(errors)
-      res.end()
-
+      res.status(500).json(errors);
 
       return;
     });

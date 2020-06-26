@@ -2,25 +2,29 @@ version: "3"
 
 services:
   manage-slots:
-    container_name: manage-slots
-    build:
-      dockerfile: ./manage-slots.dockerfile
-      context: ../
+    build: .
     volumes:
-      - ../:/root/manage-slots
+      - .:/root/manage-slots
+    container_name: manage-slots
     environment:
-      - RABBITMQ_PROTOCOL=amqp
-      - RABBITMQ_HOST=rabbitmq-ivo-local
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USER=guest
-      - RABBITMQ_PASS=guest
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://manage-slots-mongo/manage-slots
+      - SECRET_KEY=123456
+      - APP_PORT=3000
+      - APP_NAME=manage-slots
+    ports:
+      - 3000:3000
     networks:
       - slots-network
 
   mongo:
-    image: mongo
+    image: bitnami/mongodb:latest
+    container_name: manage-slots-mongo
+    restart: always
     ports:
       - "27017:27017"
+    volumes:
+      - /tmp/mongo:/bitnami
     networks:
       - slots-network
       

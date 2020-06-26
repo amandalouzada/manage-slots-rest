@@ -3,6 +3,7 @@ import { ProfessionalService } from "@modules/professional/ProfessionalService";
 import { ProfessionalUser } from "@modules/professional/ProfessionalUser";
 import { JWT } from "./JWT";
 import { IAuthService } from "./IAuthService";
+import { ControllerResponse } from "@infra/http/Response";
 
 export class AuthController {
 
@@ -11,7 +12,7 @@ export class AuthController {
   }
 
   loginProfessional = async (req: Request, res: Response): Promise<any> => {
-    try{
+    try {
       const { email, password } = req.body;
 
       const professionalUser = await this.authService.getProfessionalUserByEmail(email);
@@ -24,18 +25,17 @@ export class AuthController {
           identity: 'ProfessionalIdentity'
         });
         professionalUser.user.setAccessToken(jwt.token);
-        res.json({ accessToken: professionalUser.user.accessToken })
+        ControllerResponse.ok(res, { accessToken: professionalUser.user.accessToken })
       }
-  
-     
-    } catch(e){
-      res.status(404).json({error:'invalid email or password'})
+
+    } catch (e) {
+      ControllerResponse.notFound(res)
     }
-    
+
   }
 
   loginCustomer = async (req: Request, res: Response): Promise<any> => {
-    try{
+    try {
       const { email, password } = req.body;
       const customerlUser = await this.authService.getCustomerUserByEmail(email);
       if (customerlUser.user.password.comparePassword(password)) {
@@ -44,16 +44,15 @@ export class AuthController {
         }, {
           email: customerlUser.user.email.value,
           name: customerlUser.user.name,
-          identity: 'ProfessionalIdentity'
+          identity: 'CustomerIdentity'
         });
         customerlUser.user.setAccessToken(jwt.token);
-  
-        res.json({ accessToken: customerlUser.user.accessToken })
+        ControllerResponse.ok(res, { accessToken: customerlUser.user.accessToken })
       }
-  
-    } catch(e){
-      res.status(404).json({error:'invalid email or password'})
+
+    } catch (e) {
+      ControllerResponse.notFound(res)
     }
-    
+
   }
 }

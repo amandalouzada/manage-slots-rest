@@ -30,14 +30,21 @@ export class SlotService implements ISlotService {
 
   async listSlotsByInterval(start: Date, end: Date, professionalId?: string) {
     const slots = (await this.slotRepository.getByInterval(start, end, professionalId))
-    return slots.map((slot) => {
+    return slots.map((slot: any) => {
+      console.log(slot);
       return {
         professional: {
           id: slot.professionalId.id,
           name: slot.professionalId.userId.name,
           license: slot.professionalId.license
         },
-        availabilities: slot.availabilities.map(availability => Availability.create(availability).value)
+        availabilities: slot.availabilities.map((availability: {
+          id?: string;
+          start: Date;
+          end: Date;
+          status: string;
+          customerId?: string;
+        }) => Availability.create(availability).value)
       }
     })
 

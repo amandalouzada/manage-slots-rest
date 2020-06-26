@@ -9,10 +9,11 @@ const professionalMiddleware = async (req: Request, res: Response, next: NextFun
   }
   const [, token] = authHeader.split(' ');
   const { identity, sub } = JSON.parse(JSON.stringify(jwt.decode(token)));
-  if (identity === 'ProfessionalIdentity'){
+  if (identity === 'ProfessionalIdentity') {
     res.locals.id = sub;
     next();
   }
+
   throw new Error('invalid token');
 };
 
@@ -23,11 +24,13 @@ const customerMiddleware = async (req: Request, res: Response, next: NextFunctio
   }
   const [, token] = authHeader.split(' ');
   const { identity, sub } = JSON.parse(JSON.stringify(jwt.decode(token)));
-  if (identity === 'CustomerIdentity'){
+  
+  if (identity === 'CustomerIdentity') {
     res.locals.id = sub;
     next();
   }
-  throw new Error('invalid token');
+
+  throw new Error('invalid token')
 };
 
 export {

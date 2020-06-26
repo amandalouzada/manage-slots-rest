@@ -18,13 +18,11 @@ services:
       - slots-network
 
   mongo:
-    image: bitnami/mongodb:latest
+    image: mongo
     container_name: manage-slots-mongo
     restart: always
     ports:
       - "27017:27017"
-    volumes:
-      - /tmp/mongo:/bitnami
     networks:
       - slots-network
       

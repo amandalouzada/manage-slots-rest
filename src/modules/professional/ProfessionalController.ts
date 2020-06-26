@@ -1,5 +1,6 @@
 import { IProfessionalService } from "./IProfessionalService";
 import { Request, Response } from "express";
+import { ControllerResponse } from "@infra/http/Response";
 
 export class ProfessionalController {
 
@@ -14,10 +15,8 @@ export class ProfessionalController {
         { license },
         { name, email, password }
       );
+    ControllerResponse.created(res, result)
 
-    res.status(201).json({
-      result
-    });
   }
 
 

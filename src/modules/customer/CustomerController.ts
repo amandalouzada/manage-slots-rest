@@ -1,5 +1,6 @@
 import { ICustomerService } from "./ICustomerService";
 import { Request, Response } from "express";
+import { ControllerResponse } from "@infra/http/Response";
 
 export class CustomerController {
 
@@ -13,10 +14,7 @@ export class CustomerController {
       (
         { name, email, password }
       );
-
-    res.status(201).json({
-      result
-    });
+      ControllerResponse.created(res, result)
   }
 
 

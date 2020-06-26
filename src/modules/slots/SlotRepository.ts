@@ -30,7 +30,7 @@ export class SlotRespository extends MongooseRepository<ISlotModel> implements I
   }
 
   async getByInterval(start: Date, end: Date, professionalId?: string, status?: string) {
-    const queryGeneric = {
+    const queryGeneric: { [key: string]: any } = {
       'availabilities.start': {
         $gte: start,
         $lte: end

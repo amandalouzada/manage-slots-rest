@@ -55,7 +55,7 @@
     "express-async-errors": "^3.1.1",
     "helmet": "^3.23.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mongoose": "^5.9.20",
     "uuid": "^8.2.0",
     "youch": "^2.0.10"
